@@ -3,4 +3,5 @@ export enum CalculatorKeys {
     NUM_0 = 0,
     NUM_1 = 1,
     NUM_2 = 2,
+    NUM_3 = 3,
 }
