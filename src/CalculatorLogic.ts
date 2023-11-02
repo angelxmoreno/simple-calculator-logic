@@ -10,6 +10,9 @@ export default class CalculatorLogic {
         switch (true) {
             case isNumber(key):
                 break;
+
+            default:
+                throw new Error(`"${key}" is not a valid Calculator key`);
         }
     }
 }

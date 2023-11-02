@@ -11,6 +11,7 @@
     "scripts": {
         "prepublish": "tsc",
         "test": "mocha -r ts-node/register tests/**/*.spec.ts",
+        "test:coverage": "nyc yarn run test",
         "lint": "eslint . --cache",
         "lint:fix": "eslint . --cache --fix",
         "prepare": "husky install",
