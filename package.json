@@ -10,7 +10,9 @@
   "private": false,
   "scripts": {
     "prepublish": "tsc",
-    "test": "mocha -r ts-node/register tests/**/*.spec.ts"
+    "test": "mocha -r ts-node/register tests/**/*.spec.ts",
+    "lint": "eslint . --cache",
+    "lint:fix": "eslint . --cache --fix"
   },
   "dependencies": {
     "decimal.js": "^10.4.3",
@@ -22,15 +24,20 @@
     "@types/lodash": "^4.14.200",
     "@types/mocha": "^10.0.3",
     "@types/node": "^20.8.10",
-    "@typescript-eslint/eslint-plugin": "^6.9.1",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
     "@typescript-eslint/parser": "^6.9.1",
     "chai": "^4.3.10",
-    "eslint": "^8.52.0",
+    "eslint": "^8.0.1",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-promise": "^6.0.0",
     "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
-    "typescript": "^5.2.2"
+    "typescript": "*"
   }
 }
