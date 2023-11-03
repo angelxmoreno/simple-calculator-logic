@@ -1,135 +1,159 @@
-import { CalculatorButtons } from './CalculatorButtons';
+import { CalculatorButtons } from './CalculatorButtons'; // Replace with your import path
 
-export default class CalculatorLogic {
-    private currentOperand: string = '';
-    private currentOperator: string | null = null;
-    private currentResult: number | null = null;
+export class CalculatorLogic {
+    private display: string = '0';
+    private firstOperand: number | null = null;
+    private operator: string | null = null;
+    private isNewNumber = true;
+    private hasOperator = false;
 
-    pressKey(key: CalculatorButtons): CalculatorLogic {
-        if (key === CalculatorButtons.Decimal) {
-            if (!this.currentOperand.includes('.')) {
-                this.currentOperand += key.toString();
-            }
-        } else if (typeof key === 'number') {
-            this.currentOperand = Number(this.currentOperand + key.toString()).toString();
-        } else if (this.isValidOperator(key)) {
-            this.handleOperator(key);
-        } else if (key === CalculatorButtons.Equals) {
-            this.calculateResult();
-        } else if (key === CalculatorButtons.Negate) {
-            this.toggleSign();
-        } else if (key === CalculatorButtons.Clear) {
-            this.clearInput();
+    pressKey(button: CalculatorButtons): CalculatorLogic {
+        if (this.display === 'Error' && button !== CalculatorButtons.Clear) {
+            return this;
+        }
+
+        if (this.isNewNumber) {
+            this.display = '0';
+            this.isNewNumber = false;
+        }
+
+        switch (button) {
+            case CalculatorButtons.Zero:
+            case CalculatorButtons.One:
+            case CalculatorButtons.Two:
+            case CalculatorButtons.Three:
+            case CalculatorButtons.Four:
+            case CalculatorButtons.Five:
+            case CalculatorButtons.Six:
+            case CalculatorButtons.Seven:
+            case CalculatorButtons.Eight:
+            case CalculatorButtons.Nine:
+                this.handleNumber(button);
+                break;
+            case CalculatorButtons.Plus:
+            case CalculatorButtons.Minus:
+            case CalculatorButtons.Multiply:
+            case CalculatorButtons.Divide:
+                if (this.firstOperand !== null && this.operator) {
+                    this.calculate();
+                }
+                this.handleOperator(button);
+                break;
+            case CalculatorButtons.Equals:
+                if (this.firstOperand !== null && this.operator) {
+                    this.calculate();
+                    this.isNewNumber = true;
+                    this.hasOperator = false;
+                }
+                break;
+            case CalculatorButtons.Clear:
+                this.clear();
+                break;
+            case CalculatorButtons.SquareRoot:
+                this.calculateSquareRoot();
+                break;
+            case CalculatorButtons.Percentage:
+                this.calculatePercentage();
+                break;
+            case CalculatorButtons.Decimal:
+                this.handleDecimal();
+                break;
+            case CalculatorButtons.Negate:
+                this.handleNegate();
+                break;
         }
 
         return this;
     }
 
-    private toggleSign() {
-        if (this.currentOperand !== '') {
-            const numericValue = parseFloat(this.currentOperand);
-            this.currentOperand = (-numericValue).toString();
-        } else if (this.currentResult !== null) {
-            this.currentResult = -this.currentResult;
-        }
+    getResult(): number | null {
+        return this.display === 'Error' ? null : parseFloat(this.display);
     }
 
-    private isValidOperator(key: CalculatorButtons): boolean {
-        return (
-            key === CalculatorButtons.Plus ||
-            key === CalculatorButtons.Minus ||
-            key === CalculatorButtons.Multiply ||
-            key === CalculatorButtons.Divide ||
-            key === CalculatorButtons.SquareRoot ||
-            key === CalculatorButtons.Percentage
-        );
+    getDisplay(): string {
+        return this.display;
     }
 
-    private handleOperator(key: CalculatorButtons) {
-        if (key === CalculatorButtons.SquareRoot) {
-            this.calculateSquareRoot();
-        } else if (key === CalculatorButtons.Percentage) {
-            this.calculatePercentage();
+    private handleNumber(button: CalculatorButtons) {
+        if (this.display === '0' || this.isNewNumber) {
+            this.display = button.toString();
+            this.isNewNumber = false;
+            this.hasOperator = false;
         } else {
-            this.currentOperator = key.toString();
-            this.calculateResult();
+            this.display += button;
         }
     }
 
-    private calculateResult() {
-        if (this.currentOperand && this.currentOperator) {
-            try {
-                const operand = parseFloat(this.currentOperand);
-                if (this.currentResult === null) {
-                    this.currentResult = operand;
-                } else {
-                    switch (this.currentOperator) {
-                        case CalculatorButtons.Plus.toString():
-                            this.currentResult += operand;
-                            break;
-                        case CalculatorButtons.Minus.toString():
-                            this.currentResult -= operand;
-                            break;
-                        case CalculatorButtons.Multiply.toString():
-                            this.currentResult *= operand;
-                            break;
-                        case CalculatorButtons.Divide.toString():
-                            if (operand !== 0) {
-                                this.currentResult /= operand;
-                            } else {
-                                throw new Error('Division by zero is not allowed.');
-                            }
-                            break;
-                    }
-                }
-            } catch (error) {
-                this.currentResult = null;
-            }
-            this.currentOperand = '';
+    private handleOperator(operator: string) {
+        if (!this.hasOperator) {
+            this.firstOperand = parseFloat(this.display);
+            this.operator = operator;
+            this.isNewNumber = true;
+            this.hasOperator = true;
         }
+    }
+
+    private calculate() {
+        if (this.firstOperand !== null && this.operator) {
+            const secondOperand = parseFloat(this.display);
+            switch (this.operator) {
+                case CalculatorButtons.Plus:
+                    this.display = (this.firstOperand + secondOperand).toString();
+                    break;
+                case CalculatorButtons.Minus:
+                    this.display = (this.firstOperand - secondOperand).toString();
+                    break;
+                case CalculatorButtons.Multiply:
+                    this.display = (this.firstOperand * secondOperand).toString();
+                    break;
+                case CalculatorButtons.Divide:
+                    if (secondOperand === 0) {
+                        this.display = 'Error';
+                    } else {
+                        this.display = (this.firstOperand / secondOperand).toString();
+                    }
+                    break;
+            }
+            this.firstOperand = null;
+            this.operator = null;
+        }
+    }
+
+    private clear() {
+        this.display = '0';
+        this.firstOperand = null;
+        this.operator = null;
+        this.isNewNumber = true;
+        this.hasOperator = false;
     }
 
     private calculateSquareRoot() {
-        try {
-            const operand = parseFloat(this.currentOperand);
-            if (operand >= 0) {
-                this.currentResult = Math.sqrt(operand);
-                this.currentOperand = this.currentResult.toString();
-            } else {
-                throw new Error('Square root of a negative number is not allowed.');
-            }
-        } catch (error) {
-            this.currentResult = null;
-            this.currentOperand = 'Error';
+        const value = parseFloat(this.display);
+        if (value < 0) {
+            this.display = 'Error';
+        } else {
+            this.display = Math.sqrt(value).toString();
         }
     }
 
     private calculatePercentage() {
-        try {
-            const operand = parseFloat(this.currentOperand);
-            this.currentResult = operand / 100;
-            this.currentOperand = this.currentResult.toString();
-        } catch (error) {
-            this.currentResult = null;
-            this.currentOperand = 'Error';
+        const value = parseFloat(this.display);
+        this.display = (value / 100).toString();
+    }
+
+    private handleDecimal() {
+        if (!this.display.includes('.')) {
+            this.display += '.';
         }
     }
 
-    getResult(): number | null {
-        return this.currentResult;
-    }
-
-    getDisplay(): string {
-        if (this.currentResult !== null) {
-            return this.currentResult.toString();
-        } else {
-            return this.currentOperand || '0';
+    private handleNegate() {
+        if (this.display !== '0' && this.display !== 'Error') {
+            if (this.display.charAt(0) === '-') {
+                this.display = this.display.slice(1);
+            } else {
+                this.display = '-' + this.display;
+            }
         }
-    }
-
-    private clearInput() {
-        this.currentOperand = '0';
-        this.currentOperator = null;
-        this.currentResult = null;
     }
 }

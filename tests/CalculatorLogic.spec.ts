@@ -85,20 +85,16 @@ describe('CalculatorLogic', function () {
             .pressKey(CalculatorButtons.Five)
             .pressKey(CalculatorButtons.Plus)
             .pressKey(CalculatorButtons.Three)
-            .pressKey(CalculatorButtons.Plus);
+            .pressKey(CalculatorButtons.Equals);
 
         expect(calculator.getDisplay()).to.equal('8');
     });
 
     it('should negate a negative number', function () {
-        calculator
-            .pressKey(CalculatorButtons.Zero)
-            .pressKey(CalculatorButtons.Minus)
-            .pressKey(CalculatorButtons.Five)
-            .pressKey(CalculatorButtons.Equals)
-            .pressKey(CalculatorButtons.Negate);
-        expect(calculator.getDisplay()).to.equal('5');
+        calculator.pressKey(CalculatorButtons.Five).pressKey(CalculatorButtons.Negate);
+        expect(calculator.getDisplay()).to.equal('-5');
     });
+
     it('should clear the calculator and reset the display to "0"', function () {
         calculator
             .pressKey(CalculatorButtons.Five)
@@ -142,5 +138,38 @@ describe('CalculatorLogic', function () {
         calculator.pressKey(CalculatorButtons.Clear).pressKey(CalculatorButtons.Two);
 
         expect(calculator.getDisplay()).to.equal('2');
+    });
+
+    it('should display the second operand when the first operand exists', function () {
+        calculator
+            .pressKey(CalculatorButtons.Clear)
+            .pressKey(CalculatorButtons.Two)
+            .pressKey(CalculatorButtons.Plus)
+            .pressKey(CalculatorButtons.Three);
+
+        expect(calculator.getDisplay()).to.equal('3');
+    });
+
+    it('should retain current result when entering an operator', function () {
+        calculator
+            .pressKey(CalculatorButtons.Five)
+            .pressKey(CalculatorButtons.Plus)
+            .pressKey(CalculatorButtons.Three)
+            .pressKey(CalculatorButtons.Plus)
+            .pressKey(CalculatorButtons.Two)
+            .pressKey(CalculatorButtons.Multiply)
+            .pressKey(CalculatorButtons.Four)
+            .pressKey(CalculatorButtons.Equals);
+
+        expect(calculator.getResult()).to.equal(40);
+
+        // After the calculation, entering new digits should start a new number
+        calculator
+            .pressKey(CalculatorButtons.Five)
+            .pressKey(CalculatorButtons.Plus)
+            .pressKey(CalculatorButtons.Two)
+            .pressKey(CalculatorButtons.Equals);
+
+        expect(calculator.getResult()).to.equal(7);
     });
 });
