@@ -11,7 +11,7 @@ export default class CalculatorLogic {
                 this.currentOperand += key.toString();
             }
         } else if (typeof key === 'number') {
-            this.currentOperand += key.toString();
+            this.currentOperand = Number(this.currentOperand + key.toString()).toString();
         } else if (this.isValidOperator(key)) {
             this.handleOperator(key);
         } else if (key === CalculatorButtons.Equals) {

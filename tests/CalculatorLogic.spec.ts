@@ -137,4 +137,10 @@ describe('CalculatorLogic', function () {
             .pressKey(CalculatorButtons.Four);
         expect(calculator.getDisplay()).to.equal('12.34');
     });
+
+    it('should properly display numbers without leading zeros', function () {
+        calculator.pressKey(CalculatorButtons.Clear).pressKey(CalculatorButtons.Two);
+
+        expect(calculator.getDisplay()).to.equal('2');
+    });
 });
