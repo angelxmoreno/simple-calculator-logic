@@ -126,4 +126,15 @@ describe('CalculatorLogic', function () {
             .pressKey(CalculatorButtons.Clear);
         expect(calculator.getDisplay()).to.equal('0');
     });
+
+    it('should prevent multiple decimal points', function () {
+        calculator
+            .pressKey(CalculatorButtons.One)
+            .pressKey(CalculatorButtons.Two)
+            .pressKey(CalculatorButtons.Decimal)
+            .pressKey(CalculatorButtons.Three)
+            .pressKey(CalculatorButtons.Decimal)
+            .pressKey(CalculatorButtons.Four);
+        expect(calculator.getDisplay()).to.equal('12.34');
+    });
 });

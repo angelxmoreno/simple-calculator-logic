@@ -1,18 +1,16 @@
 import { CalculatorButtons } from './CalculatorButtons';
 
 export default class CalculatorLogic {
-    private currentOperand: string;
+    private currentOperand: string = '';
     private currentOperator: string | null = null;
     private currentResult: number | null = null;
 
-    constructor() {
-        this.currentOperand = '0';
-    }
-
     pressKey(key: CalculatorButtons): CalculatorLogic {
-        if (key === CalculatorButtons.Clear) {
-            this.clear();
-        } else if (typeof key === 'number' || key === CalculatorButtons.Decimal) {
+        if (key === CalculatorButtons.Decimal) {
+            if (!this.currentOperand.includes('.')) {
+                this.currentOperand += key.toString();
+            }
+        } else if (typeof key === 'number') {
             this.currentOperand += key.toString();
         } else if (this.isValidOperator(key)) {
             this.handleOperator(key);
@@ -20,6 +18,8 @@ export default class CalculatorLogic {
             this.calculateResult();
         } else if (key === CalculatorButtons.Negate) {
             this.toggleSign();
+        } else if (key === CalculatorButtons.Clear) {
+            this.clearInput();
         }
 
         return this;
@@ -127,7 +127,7 @@ export default class CalculatorLogic {
         }
     }
 
-    private clear() {
+    private clearInput() {
         this.currentOperand = '0';
         this.currentOperator = null;
         this.currentResult = null;
