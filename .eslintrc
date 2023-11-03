@@ -13,8 +13,29 @@
     "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
+  "overrides": [
+    {
+      "files": [
+        "*.md"
+      ],
+      "parser": "eslint-plugin-markdownlint/parser",
+      "extends": [
+        "plugin:markdownlint/recommended"
+      ],
+      "rules": {
+        "markdownlint/md013": [
+          "error",
+          {
+            "line_length": 120
+          }
+        ]
+      }
+    }
+  ],
   "rules": {
-    "prettier/prettier": ["error"]
+    "prettier/prettier": [
+      "error"
+    ]
   },
   "env": {
     "browser": true,
