@@ -1,6 +1,6 @@
-import CalculatorLogic from '../src/CalculatorLogic';
 import { expect } from 'chai';
-import { CalculatorButtons } from '../src/CalculatorButtons';
+import { CalculatorButtons, CalculatorLogic } from '../src';
+
 describe('CalculatorLogic', function () {
     let calculator: CalculatorLogic;
 
