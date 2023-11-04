@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://github.com/angelxmoreno/simple-calculator-logic/compare/v0.2.0...v0.2.1) (2023-11-04)
+
+
+### Bug Fixes
+
+* **precision:** added DecimalJS to handle precision ([4b74c27](https://github.com/angelxmoreno/simple-calculator-logic/commit/4b74c273b82e8aacf1317df557fc13d3df469125)), closes [#16](https://github.com/angelxmoreno/simple-calculator-logic/issues/16)
+
 ## [0.2.0](https://github.com/angelxmoreno/simple-calculator-logic/compare/v0.0.0...v0.2.0) (2023-11-04)
 
 
