@@ -172,4 +172,16 @@ describe('CalculatorLogic', function () {
 
         expect(calculator.getResult()).to.equal(7);
     });
+
+    it('should not lose precision', function () {
+        calculator
+            .pressKey(CalculatorButtons.Decimal)
+            .pressKey(CalculatorButtons.One)
+            .pressKey(CalculatorButtons.Plus)
+            .pressKey(CalculatorButtons.Decimal)
+            .pressKey(CalculatorButtons.Two)
+            .pressKey(CalculatorButtons.Equals);
+
+        expect(calculator.getDisplay()).to.equal('0.3');
+    });
 });
