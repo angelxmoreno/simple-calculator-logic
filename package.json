@@ -21,7 +21,9 @@
         "release:patch": "standard-version --release-as patch --no-verify",
         "release:major": "standard-version --release-as major --no-verify"
     },
-    "dependencies": {},
+    "dependencies": {
+        "decimal.js": "^10.4.3"
+    },
     "devDependencies": {
         "@commitlint/cli": "18.2.0",
         "@commitlint/config-conventional": "18.1.0",

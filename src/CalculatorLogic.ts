@@ -1,4 +1,5 @@
-import { CalculatorButtons } from './CalculatorButtons'; // Replace with your import path
+import { CalculatorButtons } from './CalculatorButtons';
+import Decimal from 'decimal.js'; // Replace with your import path
 
 export class CalculatorLogic {
     private display: string = '0';
@@ -96,21 +97,23 @@ export class CalculatorLogic {
     private calculate() {
         if (this.firstOperand !== null && this.operator) {
             const secondOperand = parseFloat(this.display);
+
+            const operrand1 = new Decimal(this.firstOperand);
             switch (this.operator) {
                 case CalculatorButtons.Plus:
-                    this.display = (this.firstOperand + secondOperand).toString();
+                    this.display = operrand1.plus(secondOperand).toString();
                     break;
                 case CalculatorButtons.Minus:
-                    this.display = (this.firstOperand - secondOperand).toString();
+                    this.display = operrand1.minus(secondOperand).toString();
                     break;
                 case CalculatorButtons.Multiply:
-                    this.display = (this.firstOperand * secondOperand).toString();
+                    this.display = operrand1.times(secondOperand).toString();
                     break;
                 case CalculatorButtons.Divide:
                     if (secondOperand === 0) {
                         this.display = 'Error';
                     } else {
-                        this.display = (this.firstOperand / secondOperand).toString();
+                        this.display = operrand1.dividedBy(secondOperand).toString();
                     }
                     break;
             }
@@ -128,17 +131,17 @@ export class CalculatorLogic {
     }
 
     private calculateSquareRoot() {
-        const value = parseFloat(this.display);
-        if (value < 0) {
+        const value = new Decimal(this.display);
+        if (value.toNumber() < 0) {
             this.display = 'Error';
         } else {
-            this.display = Math.sqrt(value).toString();
+            this.display = value.squareRoot().toString();
         }
     }
 
     private calculatePercentage() {
-        const value = parseFloat(this.display);
-        this.display = (value / 100).toString();
+        const value = new Decimal(this.display);
+        this.display = value.dividedBy(100).toString();
     }
 
     private handleDecimal() {
