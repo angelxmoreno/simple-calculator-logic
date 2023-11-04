@@ -21,16 +21,12 @@
         "release:patch": "standard-version --release-as patch",
         "release:major": "standard-version --release-as major"
     },
-    "dependencies": {
-        "decimal.js": "^10.4.3",
-        "lodash": "^4.17.21"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@commitlint/cli": "18.2.0",
         "@commitlint/config-conventional": "18.1.0",
         "@istanbuljs/nyc-config-typescript": "^1.0.2",
         "@types/chai": "^4.3.9",
-        "@types/lodash": "^4.14.200",
         "@types/mocha": "^10.0.3",
         "@types/node": "^20.8.10",
         "@typescript-eslint/eslint-plugin": "^6.4.0",
