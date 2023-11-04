@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/angelxmoreno/simple-calculator-logic/compare/v0.0.0...v0.2.0) (2023-11-04)
+
+
+### Bug Fixes
+
+* adding MD files to eslint ignore ([4faabe5](https://github.com/angelxmoreno/simple-calculator-logic/commit/4faabe549b99af0b4b917c01d993b68026e83f5d))
+
 ## [0.1.0](https://github.com/angelxmoreno/simple-calculator-logic/compare/v0.0.0...v0.1.0) (2023-11-04)
 
 
